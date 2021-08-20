@@ -64,7 +64,7 @@ namespace livestock_api_samples.Helpers
                     !policy.Equals(defaultPolicy))
                 {
                     context.ProtocolMessage.Scope = OpenIdConnectScope.OpenIdProfile;
-                    context.ProtocolMessage.ResponseType = OpenIdConnectResponseType.IdToken;
+                    context.ProtocolMessage.ResponseType = OpenIdConnectResponseType.Code;
                     context.ProtocolMessage.IssuerAddress = context.ProtocolMessage.IssuerAddress.ToLower().Replace(defaultPolicy.ToLower(), policy.ToLower());
                     context.Properties.Items.Remove(AzureAdB2COptions.PolicyAuthenticationProperty);
                 }
@@ -72,7 +72,7 @@ namespace livestock_api_samples.Helpers
                 {
                     context.ProtocolMessage.Scope += $" offline_access {AzureAdB2COptions.ApiScopes}";
                     context.ProtocolMessage.Scope = context.ProtocolMessage.Scope.Trim();
-                    context.ProtocolMessage.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                    context.ProtocolMessage.ResponseType = OpenIdConnectResponseType.Code;
                 }
                 return Task.FromResult(0);
             }
@@ -103,8 +103,7 @@ namespace livestock_api_samples.Helpers
                 // Use MSAL to swap the code for an access token
                 // Extract the code from the response notification
                 var code = context.ProtocolMessage.Code;
-
-                string signedInUserID = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value;
+                
                 var cca = MsalAppBuilder.BuildConfidentialClientApplication(context.Principal, AzureAdB2COptions);
                 try
                 {
