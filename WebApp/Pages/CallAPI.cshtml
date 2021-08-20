@@ -1,0 +1,13 @@
+﻿@page
+@model livestock_api_samples.Pages.CallAPIModel
+@{
+}
+
+@{
+    ViewData["Title"] = "Livestock Information Services Samples - Webapp Call API";
+}
+<h2>@ViewData["Title"]</h2>
+
+<input type="button"
+       value="Call API"
+       onclick="location.href='<%: Url.Action(" Action", "Controller" ) %>'" />

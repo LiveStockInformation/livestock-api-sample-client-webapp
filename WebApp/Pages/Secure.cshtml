@@ -1,0 +1,46 @@
+﻿@page
+@model livestock_api_samples.Pages.SecureModel
+@{
+    ViewData["Title"] = "Secure";
+}
+<h2>@ViewData["Title"]</h2>
+<table class="table-hover table-condensed table-striped">
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>AuthenticationResultAccessToken</td>
+        <td>@ViewData["AuthenticationResultAccessToken"]</td>
+    </tr>
+    <tr>
+        <td>AuthenticationResultIdToken</td>
+        <td>@ViewData["AuthenticationResultIdToken"]</td>
+    </tr>
+    <tr>
+        <td>LI-B2C-ClientId</td>
+        <td>@ViewData["AzureAdB2COptionsClientId"]</td>
+    </tr>
+    <tr>
+        <td>LI-B2C-Authority</td>
+        <td>@ViewData["AzureAdB2COptionsAuthority"]</td>
+    </tr>
+    <tr>
+        <td>App-RedirectUri</td>
+        <td>@ViewData["AzureAdB2COptionsRedirectUri"]</td>
+    </tr>
+    <tr>
+        <td>LI-HelloWorld-API_Url</td>
+        <td>@ViewData["AzureAdB2COptionsApiUrl"]</td>
+    </tr>
+    <tr>
+        <td>LI-HelloWorld-API-ApiScopes</td>
+        <td>@ViewData["AzureAdB2COptionsApiScopes"]</td>
+    </tr>
+    <tr>
+        <td>LI-HelloWorld-API_Response</td>
+        <td>@ViewData["ResponsePayload"]</td>
+    </tr>
+</table>
+
+         
