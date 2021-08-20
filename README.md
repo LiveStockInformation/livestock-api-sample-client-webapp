@@ -1,6 +1,6 @@
 
 
-# Livestock API Samples: Asp.Net Web App signing in users with Azure Active Directory B2C and calling a livestock Information systems API
+# Livestock API Samples: Asp.Net Web App signing in users with Azure Active Directory B2C and calling a livestock Information systems API ( Hello World API)
 
 > This sample is using MSAL.NET 4.x. 
 
