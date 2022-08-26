@@ -44,7 +44,8 @@ namespace livestock_api_samples
             .AddCookie();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
@@ -53,14 +54,14 @@ namespace livestock_api_samples
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+           // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+           // loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
@@ -77,8 +78,20 @@ namespace livestock_api_samples
             app.UseStaticFiles();
             app.UseSession();
             app.UseAuthentication();
-            app.UseMvc();
-            app.UseMvcWithDefaultRoute(); // Need this to map to controller routes
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages(); //Routes for pages
+                endpoints.MapControllers();
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            //app.UseMvcWithDefaultRoute(); // Need this to map to controller routes
             app.UseCookiePolicy(); // Need this to be after app.UseMvc(), think it is related to https://github.com/aspnet/Mvc/issues/8233
         }
     }
