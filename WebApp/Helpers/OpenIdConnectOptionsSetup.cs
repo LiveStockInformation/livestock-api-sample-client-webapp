@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -79,21 +80,25 @@ namespace livestock_api_samples.Helpers
 
             public Task OnRemoteFailure(RemoteFailureContext context)
             {
+
                 context.HandleResponse();
+                context.HandleResponse();
+                var message = Regex.Replace(context.Failure.Message, @"[^\u001F-\u007F]+", string.Empty);
+
                 // Handle the error code that Azure AD B2C throws when trying to reset a password from the login page
                 // because password reset is not supported by a "sign-up or sign-in policy"
-                if (context.Failure is OpenIdConnectProtocolException && context.Failure.Message.Contains("AADB2C90118"))
+                if (context.Failure is OpenIdConnectProtocolException && message.Contains("AADB2C90118"))
                 {
                     // If the user clicked the reset password link, redirect to the reset password route
                     context.Response.Redirect("/Account/ResetPassword");
                 }
-                else if (context.Failure is OpenIdConnectProtocolException && context.Failure.Message.Contains("access_denied"))
+                else if (context.Failure is OpenIdConnectProtocolException && message.Contains("access_denied"))
                 {
                     context.Response.Redirect("/");
                 }
                 else
                 {
-                    context.Response.Redirect("/Error?message=" + context.Failure.Message);
+                    context.Response.Redirect("/Error?message=" + message);
                 }
                 return Task.FromResult(0);
             }
